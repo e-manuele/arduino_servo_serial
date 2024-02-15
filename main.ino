@@ -1,7 +1,7 @@
 #include <Servo.h>
 
 Servo myservo;
-int pos = 0;
+String pos = "";
 
 
 
@@ -18,36 +18,17 @@ Serial.println("Comand  input online, write command to perform action");
 }
 
 void  loop() {
+    while(Serial.available()>0)
+      {
+        pos= Serial.readString();
+        Serial.print(pos+" degree.");
+        Serial.println("Enter Position = ");
+      }
+      myservo.write(pos.toInt());
+      delay(15);
+    } 
   
-for(pos = 0; pos <= 180; pos += 1)
-if (Serial.available())
 
-
-{
-  int state = Serial.parseInt();
-    
-if ( state < 0 && state >180)
-
-{
-
-Serial.println("cannos  execute command");
-Serial.println(state);
-}
-
-if (state >= 0 && state <= 180)
-{
-  Serial.print(">");
-  Serial.println(state);
-  Serial.print("turning servo  to ");
-  Serial.print(state);
-  Serial.println(" degrees");
-  myservo.write(state);
-  
-}
-
-}
-
-}
 
 
 
